@@ -1,0 +1,192 @@
+Problem-1:
+public class WordMatcher {
+    public String matchFound(String input1, String input2) {
+        String[] words = input2.split(":");
+        StringBuilder output1 = new StringBuilder();
+
+        for (String word : words) {
+            if (word.length() == input1.length()) {
+                boolean match = true;
+                for (int i = 0; i < input1.length(); i++) {
+                    if (input1.charAt(i) != '_' && input1.charAt(i) != word.charAt(i)) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    if (output1.length() > 0) output1.append(":");
+                    output1.append(word.toUpperCase());
+                }
+            }
+        }
+
+        return output1.toString();
+    }
+}
+
+Problem 2-
+public class ThreeStringEncoder {
+
+    public static void main(String[] args) {
+        String input1 = "John";
+        String input2 = "Johny";
+        String input3 = "Janardhan";
+
+        String[] split1 = splitString(input1);
+        String[] split2 = splitString(input2);
+        String[] split3 = splitString(input3);
+
+        String output1 = split1[0] + split2[1] + split3[2];
+        String output2 = split1[1] + split2[2] + split3[0];
+        String output3 = toggleCase(split1[2] + split2[0] + split3[1]);
+
+        System.out.println("Output1: " + output1);
+        System.out.println("Output2: " + output2);
+        System.out.println("Output3: " + output3);
+    }
+
+    // Method to split the string into 3 parts: FRONT, MIDDLE, END
+    public static String[] splitString(String str) {
+        int len = str.length();
+        int rem = len % 3;
+        int part = len / 3;
+
+        int front = part;
+        int middle = part;
+        int end = part;
+
+        if (rem == 1) {
+            middle += 1;
+        } else if (rem == 2) {
+            front += 1;
+            end += 1;
+        }
+
+        String[] parts = new String[3];
+        parts[0] = str.substring(0, front);
+        parts[1] = str.substring(front, front + middle);
+        parts[2] = str.substring(front + middle);
+        return parts;
+    }
+
+    // Method to toggle case
+    public static String toggleCase(String str) {
+        StringBuilder toggled = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            if (Character.isUpperCase(c))
+                toggled.append(Character.toLowerCase(c));
+            else
+                toggled.append(Character.toUpperCase(c));
+        }
+
+
+Problem-3
+public class CustomStringEncoder {
+
+    public static void main(String[] args) {
+        String input = "ac 12aY"; // Example input
+        String output = processString(input);
+        System.out.println("Output: " + output);
+    }
+
+    public static String processString(String input) {
+        input = input.toLowerCase();
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < input.length(); i++) {
+            char curr = input.charAt(i);
+
+            // If not a letter, just add it
+            if (!Character.isLetter(curr)) {
+                result.append(curr);
+                continue;
+            }
+
+            // If this is the last character or next is not a letter, just add it
+            if (i == input.length() - 1 || !Character.isLetter(input.charAt(i + 1))) {
+                result.append(curr);
+                continue;
+            }
+
+            char next = input.charAt(i + 1);
+            if (Character.isLetter(next)) {
+                int val1 = curr - 'a' + 1;
+                int val2 = next - 'a' + 1;
+                int sum = val1 + val2;
+                if (sum % 26 == 0) {
+                    result.append(curr).append('0');
+                } else {
+                    char insertChar = (char) ('a' + (sum % 26) - 1);
+                    result.append(curr).append(insertChar);
+                }
+            }
+
+            i++; // Move to the next character since we've processed the pair
+        }
+
+        return result.toString();
+    }
+}
+
+
+Problem-4 
+
+public class FindAddedChar {
+
+    public static char findTheDifference(String s, String t) {
+        int sum = 0;
+
+        for (char ch : t.toCharArray()) {
+            sum += ch;
+        }
+        for (char ch : s.toCharArray()) {
+            sum -= ch;
+        }
+
+        return (char) sum;
+    }
+
+    public static void main(String[] args) {
+        String s = "abcd";
+        String t = "abcde";
+        System.out.println("Added character: " + findTheDifference(s, t)); // Output: e
+    }
+}
+
+Problem-5
+
+import java.util.*;
+
+public class NextGreaterElement {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+
+        for (int num : nums2) {
+            while (!stack.isEmpty() && stack.peek() < num) {
+                map.put(stack.pop(), num);
+            }
+            stack.push(num);
+        }
+
+        int[] ans = new int[nums1.length];
+        for (int i = 0; i < nums1.length; i++) {
+            ans[i] = map.getOrDefault(nums1[i], -1);
+        }
+
+        return ans;
+    }
+
+    // Sample usage
+    public static void main(String[] args) {
+        NextGreaterElement sol = new NextGreaterElement();
+        int[] nums1 = {4, 1, 2};
+        int[] nums2 = {1, 3, 4, 2};
+        System.out.println(Arrays.toString(sol.nextGreaterElement(nums1, nums2))); // Output: [-1, 3, -1]
+    }
+}
+
+        return toggled.toString();
+    }
+}
+
